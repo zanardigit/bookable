@@ -1,0 +1,22 @@
+{
+    "name": "zanardigit/bookable",
+    "type": "library",
+    "description": "A library to make other objects bookable ",
+    "keywords": [
+        "bookable",
+        "php"
+    ],
+    "homepage": "https://github.com/zanardigit/bookable",
+    "license": "GPL",
+    "authors": [
+        {
+            "name": "Francesco Abeni",
+            "email": "f.abeni@gibilogic.com",
+            "homepage": "http://www.yegods.it"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "phpunit/phpunit": "^4.8@dev"
+    }
+}
