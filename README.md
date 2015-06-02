@@ -2,11 +2,11 @@
 A PHP library to make other objects bookable.
 
 ## Status
-This is currently an idea. Not even Alpha code.
+2015-06-02: this is currently little more than a proof of concept. A playground. It's too early even for a roadmap. 
 
 ## Description
 My aim is to provide an independent library to make any other object bookable (i.e. rooms, theaters, cars, ...).
-The idea is to use a Decorator object around the original object and so provide additional features, without having to reimplement all booking-related concepts in your application.
+The idea is to use a kind of Decorator object around the original object to provide additional features, without reimplementing all booking-related concepts in your application.
 
 ## Persistence
 The library itself may need to persist some data. To keep it flexible for use in different framework / CMS, I will delegate the actual persistence to a "driver" class that can use application-specific helper classes / methods. 
