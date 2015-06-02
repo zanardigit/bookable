@@ -61,11 +61,21 @@ class Bookable implements BookableInterface
     }
 
     /**
+     * Return the wrapped item
+     *
+     * @return  mixed
+     */
+    public function getItem()
+    {
+        return $this->item;
+    }
+
+    /**
      * Not implemented yet
      *
      * @return boolean
      */
-    private function store()
+    public function store()
     {
         return true;
     }
