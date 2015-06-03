@@ -1,14 +1,15 @@
 <?php
 
 /**
- * @version		  Bookable.php 2015-06-02 18:41:00 UTC zanardigit
- * @package		  zanardigit/bookable
+ * @version     Bookable.php 2015-06-03 19:20:00 UTC zanardigit
+ * @package     zanardigit/bookable
  * @author      zanardigit <f.abeni@gibilogic.com>
  * @authorUrl   http://www.yegods.it
- * @license		  GNU/GPL v3 or later
+ * @license     GNU/GPL v3 or later
  */
 class Bookable implements BookableInterface
 {
+
     /**
      *
      * @var bool
@@ -33,6 +34,9 @@ class Bookable implements BookableInterface
      */
     public function book()
     {
+        if ($this->isBooked()) {
+            return false;
+        }
         $this->booked = true;
 
         return $this->store();
@@ -79,4 +83,5 @@ class Bookable implements BookableInterface
     {
         return true;
     }
+
 }

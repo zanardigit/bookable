@@ -1,11 +1,11 @@
 <?php
 
 /**
- * @version		  tests/BookableTest.php 2015-06-02 18:41:00 UTC zanardigit
- * @package		  zanardigit/bookable
+ * @version     tests/BookableTest.php 2015-06-03 19:18:00 UTC zanardigit
+ * @package     zanardigit/bookable
  * @author      zanardigit <f.abeni@gibilogic.com>
  * @authorUrl   http://www.yegods.it
- * @license		  GNU/GPL v3 or later
+ * @license     GNU/GPL v3 or later
  */
 
 class BookableTest extends PHPUnit_Framework_TestCase
@@ -61,6 +61,14 @@ class BookableTest extends PHPUnit_Framework_TestCase
         $bookable->book();
         $bookable->unbook();
         $this->assertFalse($bookable->isBooked(), "The bookable object is still booked after unbook action");
+    }
+
+    public function testBookableObjectCannotBeBookedIfAlreadyBooked()
+    {
+        $item = new \stdClass();
+        $bookable = new Bookable($item);
+        $bookable->book();
+        $this->assertFalse($bookable->book(), "The bookable object is still bookable after being booked");
     }
 
     public function testBookableObjectCanBeStored()
