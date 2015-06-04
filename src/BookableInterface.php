@@ -9,7 +9,12 @@
  */
 interface BookableInterface
 {
-
+    /**
+     * Create a new bookable object
+     *
+     * @param mixed $item
+     */
+    public function __construct($item);
     /**
      * Create a new booking for the given period
      *

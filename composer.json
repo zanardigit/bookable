@@ -17,7 +17,8 @@
     ],
     "minimum-stability": "dev",
     "require": {
-        "phpunit/phpunit": "^4.8@dev"
+        "phpunit/phpunit": "^4.8@dev",
+        "ramsey/uuid": "^3.0@dev"
     },
     "autoload": {
         "psr-0": {

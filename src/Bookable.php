@@ -8,25 +8,40 @@
  * @license     GNU/GPL v3 or later
  */
 use Bookable\Booking;
+use Ramsey\Uuid\Uuid;
 
 class Bookable implements BookableInterface
 {
 
     /**
+     * Bookings assigned to this object
      *
      * @var array
      */
     private $bookings = array();
 
     /**
+     * Wrapped item
      *
-     * @param mixed $item
+     * @var mixed $item
      */
     private $item;
 
+    /**
+     * UUID
+     *
+     * @var string $id
+     */
+    private $uuid;
+
+    /**
+     *
+     * @param mixed $item
+     */
     public function __construct($item)
     {
         $this->item = $item;
+        $this->uuid = Uuid::uuid4();
     }
 
     /**
@@ -103,6 +118,16 @@ class Bookable implements BookableInterface
     public function getItem()
     {
         return $this->item;
+    }
+
+    /**
+     * Return the UUID
+     *
+     * @return  string
+     */
+    public function getUuid()
+    {
+        return $this->uuid;
     }
 
     /**

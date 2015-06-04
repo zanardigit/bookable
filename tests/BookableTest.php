@@ -7,6 +7,7 @@
  * @authorUrl   http://www.yegods.it
  * @license     GNU/GPL v3 or later
  */
+use Ramsey\Uuid\Uuid;
 
 class BookableTest extends PHPUnit_Framework_TestCase
 {
@@ -16,6 +17,13 @@ class BookableTest extends PHPUnit_Framework_TestCase
         $item = new \stdClass();
         $bookable = new Bookable($item);
         $this->assertNotEmpty($bookable, "Unable to create the bookable object");
+    }
+
+    public function testBookableObjectHasValidUuidAfterCreated()
+    {
+        $item = new \stdClass();
+        $bookable = new Bookable($item);
+        $this->assertTrue(Uuid::isValid($bookable->getUuid()), "The bookable object has no valid UUID");
     }
 
     public function testBookableObjectHasItem()
