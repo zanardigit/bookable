@@ -43,8 +43,8 @@ class BookableTest extends PHPUnit_Framework_TestCase
     public function testBookableObjectCanBeBooked()
     {
         $item = new \stdClass();
-        $begin = new \DateTime("today");
-        $end = new \DateTime("tomorrow");
+        $begin = new \DateTimeImmutable("today");
+        $end = new \DateTimeImmutable("tomorrow");
         $bookable = new Bookable($item);
         $this->assertTrue($bookable->book($begin, $end), "The bookable object is not bookable");
     }
@@ -52,10 +52,10 @@ class BookableTest extends PHPUnit_Framework_TestCase
     public function testBookableObjectCanBeBookedInDifferentPeriods()
     {
         $item = new \stdClass();
-        $begin = new \DateTime("today");
-        $end = new \DateTime("tomorrow");
-        $new_begin = new \DateTime("first day of next week");
-        $new_end = new \DateTime("last day of next week");
+        $begin = new \DateTimeImmutable("today");
+        $end = new \DateTimeImmutable("tomorrow");
+        $new_begin = new \DateTimeImmutable("today +2 days");
+        $new_end = new \DateTimeImmutable("tomorrow +2 days");
         $bookable = new Bookable($item);
         $bookable->book($begin, $end);
         $this->assertTrue($bookable->book($new_begin, $new_end), "The bookable object is not bookable in different period");
@@ -64,8 +64,8 @@ class BookableTest extends PHPUnit_Framework_TestCase
     public function testBookableObjectIsBookedAfterBookAction()
     {
         $item = new \stdClass();
-        $begin = new \DateTime("today");
-        $end = new \DateTime("tomorrow");
+        $begin = new \DateTimeImmutable("today");
+        $end = new \DateTimeImmutable("tomorrow");
         $bookable = new Bookable($item);
         $bookable->book($begin, $end);
         $this->assertTrue($bookable->isBooked($begin, $end), "The bookable object is not booked after book action");
@@ -74,8 +74,8 @@ class BookableTest extends PHPUnit_Framework_TestCase
     public function testBookableObjectHasBookingsAfterBookAction()
     {
         $item = new \stdClass();
-        $begin = new \DateTime("today");
-        $end = new \DateTime("tomorrow");
+        $begin = new \DateTimeImmutable("today");
+        $end = new \DateTimeImmutable("tomorrow");
         $bookable = new Bookable($item);
         $bookable->book($begin, $end);
         $this->assertNotEmpty($bookable->getBookings(), "The bookable object is not booked after book action");
@@ -84,8 +84,8 @@ class BookableTest extends PHPUnit_Framework_TestCase
     public function testBookableObjectCanBeUnbooked()
     {
         $item = new \stdClass();
-        $begin = new \DateTime("today");
-        $end = new \DateTime("tomorrow");
+        $begin = new \DateTimeImmutable("today");
+        $end = new \DateTimeImmutable("tomorrow");
         $bookable = new Bookable($item);
         $bookable->book($begin, $end);
         $this->assertTrue($bookable->unbook($begin, $end), "The bookable object is not unbookable");
@@ -94,8 +94,8 @@ class BookableTest extends PHPUnit_Framework_TestCase
     public function testBookableObjectIsNotBookedAfterUnbookAction()
     {
         $item = new \stdClass();
-        $begin = new \DateTime("today");
-        $end = new \DateTime("tomorrow");
+        $begin = new \DateTimeImmutable("today");
+        $end = new \DateTimeImmutable("tomorrow");
         $bookable = new Bookable($item);
         $bookable->book($begin, $end);
         $bookable->unbook($begin, $end);
@@ -105,10 +105,10 @@ class BookableTest extends PHPUnit_Framework_TestCase
     public function testBookableObjectCannotBeBookedIfAlreadyBooked()
     {
         $item = new \stdClass();
-        $begin = new \DateTime("first day of this week");
-        $end = new \DateTime("first day of next week");
-        $new_begin = new \DateTime("last day of this week");
-        $new_end = new \DateTime("last day of next week");
+        $begin = new \DateTimeImmutable("today");
+        $end = new \DateTimeImmutable("today +7 days");
+        $new_begin = new \DateTimeImmutable("tomorrow");
+        $new_end = new \DateTimeImmutable("tomorrow +7 days");
         $bookable = new Bookable($item);
         $bookable->book($begin, $end);
         $this->assertFalse($bookable->book($new_begin, $new_end), "The bookable object is still bookable after being booked");

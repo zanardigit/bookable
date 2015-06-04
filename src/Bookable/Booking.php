@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @version     Booking.php 2015-06-03 20:39:00 UTC zanardigit
+ * @version     Booking.php 2015-06-04 21:22:00 UTC zanardigit
  * @package     zanardigit/bookable
  * @author      zanardigit <f.abeni@gibilogic.com>
  * @authorUrl   http://www.yegods.it
@@ -13,22 +13,22 @@ class Booking
 
     /**
      *
-     * @var \DateTime
+     * @var \DateTimeImmutable
      */
     private $begin;
 
     /**
      *
-     * @var \DateTime
+     * @var \DateTimeImmutable
      */
     private $end;
 
     /**
      *
-     * @param \DateTime $begin
-     * @param \DateTime $end
+     * @param \DateTimeImmutable $begin
+     * @param \DateTimeImmutable $end
      */
-    public function __construct(\DateTime $begin, \DateTime $end)
+    public function __construct(\DateTimeImmutable $begin, \DateTimeImmutable $end)
     {
         if (empty($begin) || empty($end)) {
             return false;
@@ -41,7 +41,7 @@ class Booking
     /**
      * Get begin of the booking period
      *
-     * @return \DateTime
+     * @return \DateTimeImmutable
      */
     public function getBegin()
     {
@@ -51,7 +51,7 @@ class Booking
     /**
      * Get end of the booking period
      *
-     * @return \DateTime
+     * @return \DateTimeImmutable
      */
     public function getEnd()
     {
@@ -64,10 +64,10 @@ class Booking
      * parameters is empty, it is replaced with "now", so you can easily check
      * if the booking is active in this moment.
      *
-     * @param \DateTime $from
-     * @param \DateTime $to
+     * @param \DateTimeImmutable $from
+     * @param \DateTimeImmutable $to
      */
-    public function isActive(\DateTime $from, \DateTime $to)
+    public function isActive(\DateTimeImmutable $from, \DateTimeImmutable $to)
     {
         $now = new \DateTimeImmutable();
         $from = $from ? : $now;
