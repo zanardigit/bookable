@@ -7,7 +7,11 @@
  * @authorUrl   http://www.yegods.it
  * @license     GNU/GPL v3 or later
  */
+
 namespace Bookable;
+
+use Ramsey\Uuid\Uuid;
+
 class Booking
 {
 
@@ -25,6 +29,12 @@ class Booking
 
     /**
      *
+     * @var string
+     */
+    private $uuid;
+
+    /**
+     *
      * @param \DateTimeImmutable $begin
      * @param \DateTimeImmutable $end
      */
@@ -36,6 +46,7 @@ class Booking
 
         $this->begin = $begin;
         $this->end = $end;
+        $this->uuid = Uuid::uuid4()->toString();
     }
 
     /**
@@ -56,6 +67,16 @@ class Booking
     public function getEnd()
     {
         return $this->end;
+    }
+
+    /**
+     * Get the UUID of the booking
+     *
+     * @return string
+     */
+    public function getUuid()
+    {
+        return $this->uuid;
     }
 
     /**

@@ -36,20 +36,22 @@ class Bookable implements BookableInterface
 
     /**
      *
-     * @param mixed $item
+     * @param   mixed   $item
      */
     public function __construct($item)
     {
         $this->item = $item;
-        $this->uuid = Uuid::uuid4();
+        $this->uuid = Uuid::uuid4()->toString();
     }
 
     /**
      * Create a new booking for the object
      *
-     * @return  bool    true on success
+     * @param   \DateTimeImmutable  $begin  The begin date of the booking
+     * @param   \DateTimeImmutable  $end    The end date of the booking
+     * @return  bool                        True on success
      */
-    public function book($begin, $end)
+    public function book(\DateTimeImmutable$begin, \DateTimeImmutable $end)
     {
         if (empty($begin) || empty($end)) {
             return false;
@@ -58,7 +60,8 @@ class Bookable implements BookableInterface
         if ($this->isBooked($begin, $end)) {
             return false;
         }
-        $this->bookings[] = new Booking($begin, $end);
+        $booking = new Booking($begin, $end);
+        $this->bookings[$booking->getUuid()] = $booking;
 
         return $this->store();
     }
@@ -66,30 +69,28 @@ class Bookable implements BookableInterface
     /**
      * Remove a booking from the object
      *
-     * @return  bool    true on success
+     * @param   string              $uuid   The UUID of the booking
+     * @param   \DateTimeImmutable  $begin  The begin date of the booking
+     * @param   \DateTimeImmutable  $end    The end date of the booking
+     * @return  bool                        True on success
      */
-    public function unbook($begin, $end)
+    public function unbook($uuid, \DateTimeImmutable $begin = null, \DateTimeImmutable $end = null)
     {
-        if (!$this->isBooked($begin, $end)) {
-            return false;
-        }
-        foreach ($this->bookings as $key => $booking) {
-            if (($booking->getBegin() == $begin) && ($booking->getEnd() == $end)) {
-                unset($this->bookings[$key]);
-                break;
-            }
+        if(!empty($uuid)) {
+            return $this->unbookByUuid($uuid);
         }
 
-
-        return $this->store();
+        return $this->unbookByDate($begin, $end);
     }
 
     /**
      * Check if the object is booked for the given start / end
      *
+     * @param   \DateTimeImmutable  $begin  The begin date of the booking
+     * @param   \DateTimeImmutable  $end    The end date of the booking
      * @return  bool    true if it's booked
      */
-    public function isBooked($begin, $end)
+    public function isBooked(\DateTimeImmutable $begin, \DateTimeImmutable $end)
     {
         foreach ($this->bookings as $booking) {
             if ($booking->isActive($begin, $end)) {
@@ -138,6 +139,46 @@ class Bookable implements BookableInterface
     public function store()
     {
         return true;
+    }
+
+    /**
+     * Remove a booking identified by UUID
+     *
+     * @param   string  $uuid   The UUID of the booking
+     * @return  boolean         True on success
+     */
+    private function unbookByUuid($uuid)
+    {
+        if (!$this->bookings[$uuid]) {
+            return false;
+        }
+        unset($this->bookings[$uuid]);
+
+        return $this->store();
+    }
+
+    /**
+     * Remove a booking identified by begin / end date
+     *
+     * @param   \DateTimeImmutable  $begin  The begin date of the booking
+     * @param   \DateTimeImmutable  $end    The end date of the booking
+     * @return  bool                        True on success
+     */
+    private function unbookByDate(\DateTimeImmutable $begin, \DateTimeImmutable $end)
+    {
+        if (!$this->isBooked($begin, $end)) {
+            return false;
+        }
+
+        foreach ($this->bookings as $key => $booking) {
+            if (($booking->getBegin() == $begin) && ($booking->getEnd() == $end)) {
+                unset($this->bookings[$key]);
+                break;
+            }
+        }
+
+
+        return $this->store();
     }
 
 }

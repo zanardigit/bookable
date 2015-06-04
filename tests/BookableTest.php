@@ -81,14 +81,25 @@ class BookableTest extends PHPUnit_Framework_TestCase
         $this->assertNotEmpty($bookable->getBookings(), "The bookable object is not booked after book action");
     }
 
-    public function testBookableObjectCanBeUnbooked()
+    public function testBookableObjectCanBeUnbookedByDate()
     {
         $item = new \stdClass();
         $begin = new \DateTimeImmutable("today");
         $end = new \DateTimeImmutable("tomorrow");
         $bookable = new Bookable($item);
         $bookable->book($begin, $end);
-        $this->assertTrue($bookable->unbook($begin, $end), "The bookable object is not unbookable");
+        $this->assertTrue($bookable->unbook(null, $begin, $end), "The bookable object is not unbookable by date");
+    }
+
+    public function testBookableObjectCanBeUnbookedByUuid()
+    {
+        $item = new \stdClass();
+        $begin = new \DateTimeImmutable("today");
+        $end = new \DateTimeImmutable("tomorrow");
+        $bookable = new Bookable($item);
+        $bookable->book($begin, $end);
+        $booking_uuid = array_values($bookable->getBookings())[0]->getUuid();
+        $this->assertTrue($bookable->unbook($booking_uuid, null, null), "The bookable object is not unbookable by UUID");
     }
 
     public function testBookableObjectIsNotBookedAfterUnbookAction()
@@ -98,7 +109,7 @@ class BookableTest extends PHPUnit_Framework_TestCase
         $end = new \DateTimeImmutable("tomorrow");
         $bookable = new Bookable($item);
         $bookable->book($begin, $end);
-        $bookable->unbook($begin, $end);
+        $bookable->unbook(null, $begin, $end);
         $this->assertFalse($bookable->isBooked($begin, $end), "The bookable object is still booked after unbook action");
     }
 
