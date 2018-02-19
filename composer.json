@@ -7,7 +7,7 @@
         "php"
     ],
     "homepage": "https://github.com/zanardigit/bookable",
-    "license": "GPL",
+    "license": "GPL-3.0-or-later",
     "authors": [
         {
             "name": "Francesco Abeni",
